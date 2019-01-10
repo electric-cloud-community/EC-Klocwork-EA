@@ -1,0 +1,127 @@
+if [ -z "$SELENIUM_PRELOADED" ] ; then \
+	    	curl -s 'http://localhost:4444/selenium-server/driver/?cmd=shutDownSeleniumServer'; COUNT=0; while netstat -an | grep ":4444.*LIST" > /dev/null 2>&1 ; do sleep 1; COUNT=`/usr/bin/expr $COUNT + 1`; if [ $COUNT -eq 10 ] ; then echo "ERROR: Couldn't stop selenium server"; break; fi; done; taskkill /f /fi "IMAGENAME eq iexplore.exe" ; : ; \
+	else \
+	    echo "pre-selenium-cleanup: Selenium server preloaded."; \
+	fi
+INFO: No tasks running with the specified criteria.
+if [ -z "$SELENIUM_PRELOADED" ] ; then \
+	    	mkdir -p ../../../out/common/nimbus/EC-Maven/i686_win32; while /bin/true ; do echo "`date`: Starting up Selenium server."; "/usr/local/tools/i686_win32/jdk1.6.0_18//bin/java" -jar ../build/lib/selenium-server.jar -debug -firefoxProfileTemplate ../../../out/common/nimbus/firefoxProfile -userExtensions ../build/lib/user-extensions.js > ../../../out/common/nimbus/EC-Maven/i686_win32/selenium.log 2>&1 & while ! wget http://localhost:4444 2>&1 | grep -q 403 ; do sleep 1; done; echo "`date`: Selenium server is up."; echo "`date`: Testing Selenium server viability."; if "c:/Program Files/Electric Cloud/ElectricCommander/bin/ec-perl" ../build/perl/pingSelenium.pl bnelson; then echo "`date`: Selenium server is working properly!"; break; else echo "`date`: Selenium server is not working properly.  Restarting."; 	curl -s 'http://localhost:4444/selenium-server/driver/?cmd=shutDownSeleniumServer'; COUNT=0; while netstat -an | grep ":4444.*LIST" > /dev/null 2>&1 ; do sleep 1; COUNT=`/usr/bin/expr $COUNT + 1`; if [ $COUNT -eq 10 ] ; then echo "ERROR: Couldn't stop selenium server"; break; fi; done; taskkill /f /fi "IMAGENAME eq iexplore.exe" ; : ; fi; done; \
+	else \
+	    echo "start-selenium: Selenium server preloaded."; \
+	fi
+"c:/Program Files/Electric Cloud/ElectricCommander/bin/ec-perl" systemtest/setup.pl bnelson c:/out/common/nimbus
+Uninstalling EC-Maven
+Installing EC-Maven
+COMMANDER_JOBSTEPID="" \
+	COMMANDER_DEBUG=1 \
+	COMMANDER_DEBUGFILE="../../../out/common/nimbus/EC-Maven/i686_win32/systemtest.log" \
+	"c:/Program Files/Electric Cloud/ElectricCommander/bin/ec-perl" -I../build/ntest -I../build/perl ../build/ntest/ntest --testout ../../../out/common/nimbus/EC-Maven/i686_win32/systemtest \
+		--target bnelson  systemtest
+
+Fri Jun 25 12:02:11 CAST 2010: systemtest/ec_setup.ntest:
+install .......................................................... PASSED
+promote .......................................................... PASSED
+
+Fri Jun 25 12:02:15 CAST 2010: systemtest/maven-common.ntest:
+==========ECMAVEN NTEST SETUP============
+key     : EC-Maven
+ver     : 1.0.0.0
+name    : EC-Maven-1.0.0.0
+driver  : ECMaven
+resource: local
+platform: win
+jobid   : 1
+
+Fri Jun 25 12:02:15 CAST 2010: systemtest/maven.ntest:
+==========ECMAVEN NTEST SETUP============
+key     : EC-Maven
+ver     : 1.0.0.0
+name    : EC-Maven-1.0.0.0
+driver  : ECMaven
+resource: local
+platform: win
+jobid   : 1
+check-runMaven-present ........................................... PASSED
+
+Fri Jun 25 12:02:16 CAST 2010: systemtest/runMavenCommandLine.ntest:
+allCommandsTest ..................................................path_parser => XML::XPath::Parser=HASH(0x2fbda30)
+_ioref => 
+_context => XML::XPath::Node::Element=REF(0x2fc2560)
+_xml => <?xml version="1.0" encoding="UTF-8"?>
+
+<responses xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="commander.xsd" version="2.2" dispatchId="8689">
+  <response requestId="22">
+    <jobId>3011</jobId>
+    <status>completed</status>
+    <outcome>success</outcome>
+  </response>
+  <advisory>
+    <advisoryMessage>Your ElectricCommander Server license expires on 2010-07-01.</advisoryMessage>
+  </advisory>
+</responses>
+
+_filename => 
+_parser => 
+ PASSED
+withanInvalidMavenCommand ........................................path_parser => XML::XPath::Parser=HASH(0x2fb7ecc)
+_ioref => 
+_context => XML::XPath::Node::Element=REF(0x2fae3d0)
+_xml => <?xml version="1.0" encoding="UTF-8"?>
+
+<responses xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="commander.xsd" version="2.2" dispatchId="8702">
+  <response requestId="26">
+    <jobId>3012</jobId>
+    <status>completed</status>
+    <outcome>error</outcome>
+  </response>
+  <advisory>
+    <advisoryMessage>Your ElectricCommander Server license expires on 2010-07-01.</advisoryMessage>
+  </advisory>
+</responses>
+
+_filename => 
+_parser => 
+ FAILED
+    
+    ---------------------------------------------------------
+    systemtest/runMavenCommandLine.ntest:129: assertEq failed (completed with success):
+    ---------------------------------------------------------
+    ----- Expected value:
+    success
+    ----- Value from test was:
+    error
+    -----
+    
+withDebugOnly .................................................... PASSED
+withErrorsOptionOnly ............................................. PASSED
+withFailAtEndOnly ................................................ PASSED
+withFailFastOnly ................................................. PASSED
+withFailNeverOnly ................................................ PASSED
+withoutMavenCommand .............................................. PASSED
+withoutRequired .................................................. PASSED
+withoutWorkSpace ................................................. PASSED
+
+Total test duration: 1 minute and 38 seconds
+
+Test durations >= 5 seconds:
+  allCommandsTest                                    11 seconds
+  withDebugOnly                                      11 seconds
+  withErrorsOptionOnly                               10 seconds
+  withFailAtEndOnly                                  10 seconds
+  withFailNeverOnly                                  10 seconds
+  withoutMavenCommand                                9 seconds
+  withanInvalidMavenCommand                          9 seconds
+  withFailFastOnly                                   9 seconds
+  withoutWorkSpace                                   9 seconds
+  withoutRequired                                    8 seconds
+
+Failed Tests:
+   withanInvalidMavenCommand
+  
+Total tests: 13   Passed: 12   Failed: 1   Skipped: 0
+if [ -z "$SELENIUM_PRELOADED" ] ; then \
+	    	curl -s 'http://localhost:4444/selenium-server/driver/?cmd=shutDownSeleniumServer'; COUNT=0; while netstat -an | grep ":4444.*LIST" > /dev/null 2>&1 ; do sleep 1; COUNT=`/usr/bin/expr $COUNT + 1`; if [ $COUNT -eq 10 ] ; then echo "ERROR: Couldn't stop selenium server"; break; fi; done; taskkill /f /fi "IMAGENAME eq iexplore.exe" ; : ; \
+	else \
+	    echo "stop-selenium: Selenium server preloaded."; \
+	fi
+INFO: No tasks running with the specified criteria.

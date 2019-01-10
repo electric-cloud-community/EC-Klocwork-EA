@@ -1,0 +1,99 @@
+<editor>
+    <help>/commander/pages/@PLUGIN_NAME@/@PLUGIN_KEY@_help?s=Administration&amp;ss=Plugins#runKwecbuild</help>
+    <formElement>
+        <type>entry</type>
+        <label>Klocwork's root dir:</label>
+        <property>klocroot</property>
+        <required>1</required>
+        <documentation>Root directory on which Klocwork's files are stored, otherwise default will be assumed.</documentation>
+    </formElement>
+    <formElement>
+        <type>entry</type>
+        <label>Electric Cloud host manager:</label>
+        <property>echost</property>
+        <required>0</required>
+        <documentation>Name of the Electric Cloud host manager.</documentation>
+    </formElement>
+    <formElement>
+        <type>entry</type>
+        <label>Emake root:</label>
+        <property>emakePath</property>
+        <required>1</required>
+        <documentation>Electric Cloud emake utility location.</documentation>
+    </formElement>
+    <formElement>
+        <type>entry</type>
+        <label>Emake annotation file path:</label>
+        <property>emakeAnotationFile</property>
+        <required>0</required>
+        <documentation>Absolute path to an emake annotation file.</documentation>
+    </formElement>
+    <formElement>
+        <type>entry</type>
+        <label>Build trace file path:</label>
+        <property>buildTrace</property>
+        <required>0</required>
+        <documentation>Absolute path to a build trace file</documentation>
+    </formElement>
+    <formElement>
+        <type>entry</type>
+        <label>Tables Directory:</label>
+        <property>outputTablesDir</property>
+        <required>1</required>
+        <documentation>Specifies the location where you want the project tables to be stored.</documentation>
+    </formElement>
+    <formElement>
+        <type>entry</type>
+        <label>Working directory:</label>
+        <property>workingDirectory</property>
+        <required>1</required>
+        <value></value>
+        <documentation>Working directory</documentation>
+    </formElement>
+    <formElement>
+        <type>entry</type>
+        <label>Build specification file:</label>
+        <property>buildspec</property>
+        <required>0</required>
+        <documentation>Build specification file path.</documentation>
+    </formElement>
+    <formElement>
+        <type>entry</type>
+        <label>License Host:</label>
+        <property>licenseHost</property>
+        <required>0</required>
+        <documentation>Set License Server host (default: localhost)</documentation>
+    </formElement>
+    <formElement>
+        <type>entry</type>
+        <label>License Port:</label>
+        <property>licensePort</property>
+        <required>0</required>
+        <documentation>Set License Server port (default: 27000)</documentation>
+    </formElement>
+    <formElement>
+        <type>checkbox</type>
+        <label>Force:</label>
+        <property>force</property>
+        <required>0</required>
+        <checkedValue>1</checkedValue>
+        <uncheckedValue>0</uncheckedValue>
+        <documentation>Run the analysis even if the specified output directory contains data files from the previous run.</documentation>
+    </formElement>
+    <formElement>
+        <type>checkbox</type>
+        <label>Debug:</label>
+        <property>debug</property>
+        <required>0</required>
+        <checkedValue>1</checkedValue>
+        <uncheckedValue>0</uncheckedValue>
+        <documentation>Print debug information</documentation>
+    </formElement>
+    <formElement>
+        <type>textarea</type>
+        <label>Additional commands:</label>
+        <property>options</property>
+        <required>0</required>
+        <documentation>Additional commands to be entered</documentation>
+    </formElement>
+</editor>

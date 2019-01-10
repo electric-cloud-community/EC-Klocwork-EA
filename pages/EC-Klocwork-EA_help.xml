@@ -1,0 +1,226 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta name="generator"
+          content="HTML Tidy for Windows (vers 14 February 2006), see www.w3.org" />
+    <meta content="text/html; charset=us-ascii"
+          http-equiv="content-type" />
+
+    <title>ElectricFlow Plugin for Klocwork for Electric
+    Accelerator</title>
+    <link rel="stylesheet"
+          href="../../plugins/@PLUGIN_KEY@/pluginhelp.css"
+          type="text/css"
+          media="screen" />
+</head>
+
+<body>
+    <div class="help">
+        <h1>Klocwork for Electric Accelerator</h1>
+
+        <p>Plugin Version @PLUGIN_VERSION@</p>
+        <hr style="margin-left: -10px; margin-top: 10px; height: 1px; width: 100%; color: #5981BD;"
+            noshade="noshade" />
+			<p>Revised on July 1, 2015</p>
+        <p>Klocwork provides a command line tool named kwecbuild,
+        which integrates existing ElectricAccelerator functionality
+        into Klocwork. Kwecbuild allows you to perform distributed
+        system build analysis on eMake-based projects.</p>
+
+        <h2>Klocwork for Electric Accelerator Links</h2>
+
+        <p>More information can be found at
+        <a href="http://docs.klocwork.com/Insight-10.0/Kwecbuild">
+        this website</a>.</p>
+
+        <h2>ElectricFlow Integration to Klocwork for Electric
+        Accelerator</h2>
+
+        <p>The plugin calls the Klocwork for tool's "kwecbuild",
+        from the command line and passes the user-provided
+        parameters in the parameter panel.<br />
+         Moreover, you can easily detect errors with our postp
+        feature.</p>
+
+        <h2>Integrated Version</h2>
+
+        <p>This plugin was developed and tested against version
+        9.1</p>
+
+        <h1>Plugin Procedures</h1>
+		<p>IMPORTANT: In the ElectricFlow UI, from the Home page, open the Main Menu, and click <b>Admin</b> > <b>Plugins</b> to open the Plugin Manager.</p>
+        <p>IMPORTANT: For all parameter descriptions below,
+        required parameters are shown in
+        <span class='required'>bold italics</span>.</p>
+
+        <div id="runKwecbuild">
+            <a name='runKwecbuild'
+                 id="runKwecbuild"></a> 
+
+            <h3>runKwecbuild</h3>
+
+            <p>The runKwecbuild procedure allows you to perform a
+            distributed integration build analysis of a C/C++
+            project based on emake</p>
+
+            <table class="grid">
+                <thead>
+                    <tr>
+                        <th>Parameter</th>
+
+                        <th>Description</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <td>Klocwork's root dir</td>
+
+                        <td>Root directory on which Klocwork's
+                        files are stored, otherwise default will be
+                        assumed</td>
+                    </tr>
+
+                    <tr>
+                        <td>Electric Cloud host manager</td>
+
+                        <td>Name of the Electric Cloud host manager
+                        (This is the command-line '--ec-host'
+                        option).</td>
+                    </tr>
+
+                    <tr>
+                        <td class='required'>Emake root</td>
+
+                        <td>Electric Cloud emake utility location.
+                        (This is the command-line '--ec-make'
+                        option) (Required)</td>
+                    </tr>
+
+                    <tr>
+                        <td>Emake annotation file path</td>
+
+                        <td>Absolute path to an emake annotation
+                        file.</td>
+                    </tr>
+
+                    <tr>
+                        <td>Build trace file path</td>
+
+                        <td>Absolute path to a build trace file.
+                        (This is the command-line '--trace-in'
+                        option)</td>
+                    </tr>
+
+                    <tr>
+                        <td class='required'>Tables Directory</td>
+
+                        <td>Specifies the location where you want
+                        the project tables to be stored. (This is
+                        the command-line '--output-dir' option).
+                        (Required)</td>
+                    </tr>
+
+                    <tr>
+                        <td class='required'>Working directory</td>
+
+                        <td>Working directory.(Required)</td>
+                    </tr>
+
+                    <tr>
+                        <td>Build specification file</td>
+
+                        <td>Build specification file path.</td>
+                    </tr>
+
+                    <tr>
+                        <td>License Host</td>
+
+                        <td>Set License Server host (default:
+                        localhost). (This is the command-line
+                        '--license-host' option)</td>
+                    </tr>
+
+                    <tr>
+                        <td>License Port</td>
+
+                        <td>Set License Server port (default:
+                        27000). (This is the command-line
+                        '--license-port' option)</td>
+                    </tr>
+
+                    <tr>
+                        <td>Force</td>
+
+                        <td>Run the analysis even if the specified
+                        output directory contains data files from
+                        the previous run. (This is the command-line
+                        '--force' option).</td>
+                    </tr>
+
+                    <tr>
+                        <td>Debug</td>
+
+                        <td>Print debug information. (This is the
+                        command-line '--debug' option).</td>
+                    </tr>
+
+                    <tr>
+                        <td>Additional commands</td>
+
+                        <td>Additional commands to be entered</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h2>Parameter
+            form</h2><img src="../../plugins/@PLUGIN_KEY@/images/EC-Klocwork-EA-1.png"
+                 alt="screenshot" />
+        </div>
+
+        <h1>Examples and Use Cases</h1>
+
+        <ol>
+            <li>Create a procedure, fill the parameter panels
+            according to your Klocwork configuration and
+            location.<br />
+             <img src="../../plugins/@PLUGIN_KEY@/images/EC-Klocwork-EA-1.png"
+                 alt="form" /></li>
+
+            <li>Run the procedure and see log files.</li>
+        </ol>
+        <h1>Release Notes</h1>
+		<h2>@PLUGIN_KEY@ 1.0.4</h2>        <ul>            <li>Renamed ElectricCommander to ElectricFlow.</li>        </ul>
+        <h2>@PLUGIN_KEY@ 1.0.3</h2>
+        <ul>
+            <li>Procedure name(s) were changed in the step picker section</li>
+        </ul>
+		
+        <h2>@PLUGIN_KEY@ 1.0.2</h2>
+
+        <ul>
+            <li>Code improvements</li>
+
+            <li>Help page was changed</li>
+
+            <li>XML parameter panels</li>
+        </ul>
+
+        <h2>@PLUGIN_KEY@ 1.0.1</h2>
+
+        <ul>
+            <li>Code improvements</li>
+
+            <li>Emake annotation file to build trace file
+            conversion</li>
+
+            <li>Build trace file to build specification file
+            conversion</li>
+
+            <li>Debug option added</li>
+        </ul>
+    </div>
+</body>
+</html>

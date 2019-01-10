@@ -1,0 +1,261 @@
+# -*-Perl-*-
+
+# runKlocworkeaTests.ntest -
+#
+# EC-Klocwork-EA
+#
+# Copyright (c) 2005-2010 Electric Cloud, Inc.
+# All rights reserved
+
+use strict;
+use ECTest;
+use ECSelenium;
+
+ 
+# system tests
+
+
+require "$::gTestFileDir/klocworkea-common.ntest";
+
+
+$::grunMavenCreated = 0;
+$::gProjectImported = 0;
+$::gtestProjectName = 'KlocworkElectricAcceleratorTestProject';
+
+my $outcome = "";
+
+
+
+
+sub importProject() {
+    assertOK($::N->import(
+             { file =>"$::gTestFileDir/klocworkEATests.xml",
+               path  => "/projects/KlocworkElectricAcceleratorTestProject",
+               force => 1
+             } ), "import runKlocworkeaCommandLine");
+   
+    assertOK($::N->getProcedure($::gtestProjectName, 'runkwlogparserCommandLine'),
+        "runkwlogparserCommandLine procedure doesn't exist");
+    
+    assertOK($::N->getProcedure($::gtestProjectName, 'runkwinjectCommandLine'),
+        "runkwinjectCommandLine procedure doesn't exist");
+    
+    assertOK($::N->getProcedure($::gtestProjectName, 'runkwecbuildCommandLine'),
+        "runkwecbuildCommandLine procedure doesn't exist");
+        
+    assertOK($::N->getProcedure($::gtestProjectName,'runOnlyKwecBuild'),
+        "runOnlyKwecBuild procedure doesn't exist");
+    
+    $::gProjectImported = 1;
+}
+
+
+sub doSetup() {
+
+    if(! $::gProjectImported) {
+        importProject();
+    }
+
+   
+}
+
+ntest "runkwlogparserCommandLine", {}, sub {
+      
+     doSetup();
+     # run test job
+     
+     my $xpath = $::N->runProcedure($::gtestProjectName, 
+              {procedureName => "runkwlogparserCommandLine",
+              pollInterval  => '1',
+              timeout => 600,
+                   actualParameter => [
+                  
+                  ]
+     });
+     
+     # make sure it finished
+     my $jobId = 0;
+     my $status = "";
+     
+     assertOK($xpath, 'runProcedure with errors');
+     if ($xpath) {
+         $jobId  = $xpath->findvalue("//jobId");
+         $status = $xpath->findvalue("//status");
+         $outcome = $xpath->findvalue("//outcome");
+ 
+         assertTrue($jobId && $jobId ne "",'valid job id');
+         assertEq('completed',$status,"job $jobId complete");
+ 
+         #abort if job did not finish
+         if ($status ne "completed") {
+             assertOK($::N->abortJob($jobId, {force => 1}));
+         }
+     }
+ 
+     # get the job details
+     $xpath = $::N->getJobDetails($jobId);
+ 
+     # get the value of the emakeCommandLine property
+     my $cmd = $xpath->findvalue("//property[propertyName='kwlogparserCommandLine']/value");
+ 
+     # get the value of the mavenWorkingDir property
+     my $dir = $xpath->findvalue("//property[propertyName='workingDirectory']/value");
+ 
+     # make sure the $cmd and $dir are what was expected
+     assertEq('/usr/local/klocwork/bin/kwlogparser -o "/usr/local/klocwork/samples/test/emake.trace" emake-annotation "/usr/local/klocwork/samples/test/emake.xml"', 
+        $cmd, "klocwork-ea command line doesn't match expected output");
+     
+     assertEq('/usr/local/klocwork/samples/test', $dir, "working directory doesn't match the expected");
+     
+  };
+  
+ntest "runkwinjectCommandLine", {}, sub {
+  
+ doSetup();
+ # run test job
+ 
+ my $xpath = $::N->runProcedure($::gtestProjectName, 
+          {procedureName => "runkwinjectCommandLine",
+          pollInterval  => '1',
+          timeout => 600,
+               actualParameter => [
+              
+              ]
+ });
+ 
+ # make sure it finished
+ my $jobId = 0;
+ my $status = "";
+ 
+ assertOK($xpath, 'runProcedure with errors');
+ if ($xpath) {
+     $jobId  = $xpath->findvalue("//jobId");
+     $status = $xpath->findvalue("//status");
+     $outcome = $xpath->findvalue("//outcome");
+
+     assertTrue($jobId && $jobId ne "",'valid job id');
+     assertEq('completed',$status,"job $jobId complete");
+
+     #abort if job did not finish
+     if ($status ne "completed") {
+         assertOK($::N->abortJob($jobId, {force => 1}));
+     }
+ }
+
+ # get the job details
+ $xpath = $::N->getJobDetails($jobId);
+
+ # get the value of the emakeCommandLine property
+ my $cmd = $xpath->findvalue("//property[propertyName='kwinjectCommandLine']/value");
+
+ # get the value of the mavenWorkingDir property
+ my $dir = $xpath->findvalue("//property[propertyName='workingDirectory']/value");
+
+ # make sure the $cmd and $dir are what was expected
+ assertEq('/usr/local/klocwork/bin/kwinject --trace-in "/usr/local/klocwork/samples/test/emake.trace" -o kwinject.out', 
+    $cmd, "klocwork-ea command line doesn't match expected output");
+ 
+ assertEq('/usr/local/klocwork/samples/test', $dir, "working directory doesn't match the expected");
+ 
+};
+  
+ntest "runkwecbuildCommandLine", {}, sub {
+  
+ doSetup();
+ # run test job
+ 
+ my $xpath = $::N->runProcedure($::gtestProjectName, 
+          {procedureName => "runkwecbuildCommandLine",
+          pollInterval  => '1',
+          timeout => 600,
+               actualParameter => [
+              
+              ]
+ });
+ 
+ # make sure it finished
+ my $jobId = 0;
+ my $status = "";
+ 
+ assertOK($xpath, 'runProcedure with errors');
+ if ($xpath) {
+     $jobId  = $xpath->findvalue("//jobId");
+     $status = $xpath->findvalue("//status");
+     $outcome = $xpath->findvalue("//outcome");
+
+     assertTrue($jobId && $jobId ne "",'valid job id');
+     assertEq('completed',$status,"job $jobId complete");
+
+     #abort if job did not finish
+     if ($status ne "completed") {
+         assertOK($::N->abortJob($jobId, {force => 1}));
+     }
+ }
+
+ # get the job details
+ $xpath = $::N->getJobDetails($jobId);
+
+ # get the value of the emakeCommandLine property
+ my $cmd = $xpath->findvalue("//property[propertyName='klocworkeaCommandLine']/value");
+
+ # get the value of the mavenWorkingDir property
+ my $dir = $xpath->findvalue("//property[propertyName='workingDirectory']/value");
+
+ # make sure the $cmd and $dir are what was expected
+ assertEq('/usr/local/klocwork/bin/kwecbuild --force --ec-make "/net/tools/util/i686_Linux/bin/emake" --output-dir "tables" "/usr/local/klocwork/samples/test/kwinject.out"', 
+    $cmd, "klocwork-ea command line doesn't match expected output");
+ 
+ assertEq('/usr/local/klocwork/samples/test', $dir, "working directory doesn't match the expected");
+ 
+};
+
+  
+ntest "runOnlyKwecBuild", {}, sub {
+  
+ doSetup();
+ # run test job
+ 
+ my $xpath = $::N->runProcedure($::gtestProjectName, 
+          {procedureName => "runOnlyKwecBuild",
+          pollInterval  => '1',
+          timeout => 600,
+               actualParameter => [
+              
+              ]
+ });
+ 
+ # make sure it finished
+ my $jobId = 0;
+ my $status = "";
+ 
+ assertOK($xpath, 'runProcedure with errors');
+ if ($xpath) {
+     $jobId  = $xpath->findvalue("//jobId");
+     $status = $xpath->findvalue("//status");
+     $outcome = $xpath->findvalue("//outcome");
+
+     assertTrue($jobId && $jobId ne "",'valid job id');
+     assertEq('completed',$status,"job $jobId complete");
+
+     #abort if job did not finish
+     if ($status ne "completed") {
+         assertOK($::N->abortJob($jobId, {force => 1}));
+     }
+ }
+
+ # get the job details
+ $xpath = $::N->getJobDetails($jobId);
+
+ # get the value of the emakeCommandLine property
+ my $cmd = $xpath->findvalue("//property[propertyName='klocworkeaCommandLine']/value");
+
+ # get the value of the mavenWorkingDir property
+ my $dir = $xpath->findvalue("//property[propertyName='workingDirectory']/value");
+
+ # make sure the $cmd and $dir are what was expected
+ assertEq('/usr/local/klocwork/bin/kwecbuild --force --debug --ec-make "/net/tools/util/i686_Linux/bin/emake" --output-dir "tables" "/usr/local/klocwork/samples/test/kwinject.out"', 
+    $cmd, "klocwork-ea command line doesn't match expected output");
+ 
+ assertEq('/usr/local/klocwork/samples/test', $dir, "working directory doesn't match the expected");
+ 
+};
