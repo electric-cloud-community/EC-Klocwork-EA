@@ -190,9 +190,16 @@
                  alt="form" /></li>
 
             <li>Run the procedure and see log files.</li>
-        </ol>
+        </ol>
         <h1>Release Notes</h1>
-		<h2>@PLUGIN_KEY@ 1.0.4</h2>        <ul>            <li>Renamed ElectricCommander to ElectricFlow.</li>        </ul>
+        <h2>@PLUGIN_KEY@ 1.0.5</h2>
+        <ul>
+            <li>Added metadata that is required for 9.0 release.</li>
+        </ul>
+		<h2>@PLUGIN_KEY@ 1.0.4</h2>
+        <ul>
+            <li>Renamed ElectricCommander to ElectricFlow.</li>
+        </ul>
         <h2>@PLUGIN_KEY@ 1.0.3</h2>
         <ul>
             <li>Procedure name(s) were changed in the step picker section</li>
